@@ -1,7 +1,9 @@
 # Hotel Aspect-Based Sentiment Analysis (ABSA)
 
-[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/pujithakoduru/hotel-sentiment-analysis)
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/pujithakoduru/hotel-sentiment-analysis)
+[![Live Demo](https://img.shields.io/badge/%F0%9F%8C%90%20Live%20Demo-Render-success?style=for-the-badge)](https://hotel-sentiment-analysis-qk4b.onrender.com)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/pujithakoduru/hotel-sentiment-analysis)
+
+**Live Demo URL**: [https://hotel-sentiment-analysis-qk4b.onrender.com](https://hotel-sentiment-analysis-qk4b.onrender.com)
 
 An end-to-end NLP web application that extracts fine-grained hotel aspects from customer reviews (e.g., room, staff, food, cleanliness, location, price, amenities, noise) and predicts nuanced sentiment (**Positive / Neutral / Negative**) per individual aspect.
 
@@ -11,16 +13,11 @@ Built with **Python**, **Hugging Face Transformers** (`deberta-v3-base-absa-v1.1
 
 ## 1-Click Cloud Deployment (Render)
 
-Deploy this project on **Render** (100% Free):
+This project is deployed and live on **Render**:
+
+👉 **Live URL**: [https://hotel-sentiment-analysis-qk4b.onrender.com](https://hotel-sentiment-analysis-qk4b.onrender.com)
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/pujithakoduru/hotel-sentiment-analysis)
-
-Or manually:
-1. Log in to [https://dashboard.render.com](https://dashboard.render.com) with GitHub.
-2. Click **New +** ➔ **Web Service**.
-3. Select `pujithakoduru/hotel-sentiment-analysis`.
-4. Runtime: `Python 3`, Build Command: `pip install -r requirements.txt`, Start Command: `python app.py`.
-5. Select the **Free** plan and click **Deploy Web Service**.
 
 ---
 
