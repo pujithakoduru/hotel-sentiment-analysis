@@ -1,4 +1,19 @@
+---
+title: Hotel Aspect-Based Sentiment Analysis
+emoji: 🏨
+colorFrom: indigo
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Hotel Aspect-Based Sentiment Analysis (ABSA)
+
+[![Live Demo](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Live%20Spaces%20Demo-blue)](https://huggingface.co/spaces/pujithakoduru/hotel-sentiment-analysis)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/pujithakoduru/hotel-sentiment-analysis)
+
+**Live Demo**: [https://huggingface.co/spaces/pujithakoduru/hotel-sentiment-analysis](https://huggingface.co/spaces/pujithakoduru/hotel-sentiment-analysis)
 
 An end-to-end NLP web application that extracts fine-grained hotel aspects from customer reviews (e.g., room, staff, food, cleanliness, location, price, amenities, noise) and predicts nuanced sentiment (**Positive / Neutral / Negative**) per individual aspect.
 
@@ -20,6 +35,8 @@ Built with **Python**, **Hugging Face Transformers** (`deberta-v3-base-absa-v1.1
 ## Directory Structure
 
 ```
+├── Dockerfile                  # Container definition for Hugging Face Spaces & Docker deployments
+├── .dockerignore               # Optimized Docker build context
 ├── app.py                      # Flask server, async batch worker queue, REST API
 ├── nlp_pipeline.py             # Preprocessing, aspect extraction, ABSA inference & fallback
 ├── requirements.txt            # Project dependencies
@@ -50,7 +67,7 @@ pip install -r requirements.txt
 ```bash
 python app.py
 ```
-Open **http://127.0.0.1:5000** in your web browser.
+Open **http://127.0.0.1:7860** (or `PORT=5000 python app.py`) in your web browser.
 
 ---
 
