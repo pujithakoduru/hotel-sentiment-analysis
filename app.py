@@ -309,7 +309,7 @@ def too_large(_):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 7860))
+    port = int(os.environ.get("PORT", 5000))
     # Attempt non-blocking model load in background thread
     threading.Thread(target=load_model, daemon=True).start()
     app.run(host="0.0.0.0", port=port, debug=False)

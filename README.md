@@ -39,8 +39,6 @@ Or manually:
 
 ```
 ├── render.yaml                 # 1-Click Render Blueprint configuration
-├── Dockerfile                  # Container definition for Docker deployments
-├── .dockerignore               # Optimized Docker build context
 ├── app.py                      # Flask server, async batch worker queue, REST API
 ├── nlp_pipeline.py             # Preprocessing, aspect extraction, ABSA inference & fallback
 ├── requirements.txt            # Project dependencies
@@ -71,7 +69,7 @@ pip install -r requirements.txt
 ```bash
 python app.py
 ```
-Open **http://127.0.0.1:7860** (or `PORT=5000 python app.py`) in your web browser.
+Open **http://127.0.0.1:5000** in your web browser.
 
 ---
 
