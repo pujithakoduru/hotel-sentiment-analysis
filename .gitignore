@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+venv/
+env/
+.venv/
+ENV/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Dynamic Batch run outputs (keep directory structure and sample output)
+results/analysis_*.csv
+
+# OS & Editor files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

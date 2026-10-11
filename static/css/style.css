@@ -1,0 +1,176 @@
+/* ==========================================================================
+   Hotel ABSA - Modern Design System & Custom Styles
+   ========================================================================== */
+
+:root {
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    
+    --brand-primary: #4338ca;
+    --brand-primary-hover: #3730a3;
+    --brand-accent: #6366f1;
+    --brand-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    
+    --sentiment-pos: #10b981;
+    --sentiment-pos-bg: #ecfdf5;
+    --sentiment-neu: #64748b;
+    --sentiment-neu-bg: #f8fafc;
+    --sentiment-neg: #ef4444;
+    --sentiment-neg-bg: #fef2f2;
+}
+
+body {
+    font-family: var(--font-body);
+    color: #1e293b;
+    background-color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+}
+
+/* Navbar */
+.custom-navbar {
+    background-color: #0f172a !important;
+    backdrop-filter: blur(10px);
+}
+
+.brand-icon {
+    font-size: 1.4rem;
+    color: #818cf8;
+}
+
+.brand-text {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #ffffff;
+}
+
+.accent-text {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Status Indicator Dot */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: #94a3b8;
+}
+
+.status-dot.ready {
+    background-color: #10b981;
+    box-shadow: 0 0 8px #10b981;
+}
+
+.status-dot.fallback {
+    background-color: #f59e0b;
+    box-shadow: 0 0 8px #f59e0b;
+}
+
+/* Cards & Components */
+.hover-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.08) !important;
+}
+
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Window Mockup Dots */
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dot-red { background-color: #ef4444; }
+.dot-yellow { background-color: #f59e0b; }
+.dot-green { background-color: #10b981; }
+
+.hl-room {
+    background-color: #dcfce7;
+    color: #15803d;
+    font-weight: 600;
+    padding: 1px 4px;
+    border-radius: 4px;
+}
+
+.hl-staff {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    font-weight: 600;
+    padding: 1px 4px;
+    border-radius: 4px;
+}
+
+/* Drag and Drop Zone */
+.drop-zone {
+    background-color: #ffffff;
+    border-color: #cbd5e1 !important;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.drop-zone:hover, .drop-zone.dragover {
+    background-color: #eef2ff;
+    border-color: #6366f1 !important;
+}
+
+/* Aspect Sentiment Badges */
+.badge-aspect {
+    text-transform: capitalize;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.65rem;
+}
+
+.badge-sentiment-positive {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.badge-sentiment-negative {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.badge-sentiment-neutral {
+    background-color: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+}
+
+/* Extra Typography */
+.extra-small {
+    font-size: 0.75rem;
+}
+
+/* Sticky table header border */
+.sticky-top {
+    z-index: 10;
+}

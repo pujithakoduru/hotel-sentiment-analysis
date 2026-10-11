@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Single Review Analysis - Hotel ABSA{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Interactive Review Analysis</h2>
+            <p class="text-muted">Type or paste any guest review below to decompose it into distinct hotel aspects and sentiments.</p>
+        </div>
+
+        <!-- Input Card -->
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <form id="analyzeForm">
+                    <div class="mb-3">
+                        <label for="reviewInput" class="form-label fw-semibold">Guest Review Text</label>
+                        <textarea class="form-control rounded-3" id="reviewInput" rows="4" placeholder="e.g. The bed was super comfortable and the room was spotless, but the breakfast buffet was cold and the staff at reception ignored us." required></textarea>
+                    </div>
+
+                    <!-- Quick Sample Review Buttons -->
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                        <span class="small text-muted fw-semibold me-1"><i class="bi bi-magic me-1"></i> Quick Samples:</span>
+                        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill sample-btn" data-text="The bed was exceptionally comfortable and spotless, but the breakfast was cold and disappointing.">
+                            Comfortable Bed / Cold Breakfast
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill sample-btn" data-text="Front desk staff were warm and polite. The location is right next to the central metro station, perfectly quiet at night.">
+                            Polite Staff / Prime Location
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill sample-btn" data-text="Extremely overpriced! The shower had low water pressure, Wi-Fi dropped constantly, and the street noise kept us awake all night.">
+                            High Price / Weak WiFi / Loud Noise
+                        </button>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span id="charCount" class="small text-muted">0 / 4000 characters</span>
+                        <button type="submit" id="analyzeBtn" class="btn btn-primary px-4 py-2 rounded-3 fw-semibold shadow-sm">
+                            <span class="spinner-border spinner-border-sm d-none me-1" id="analyzeSpinner" role="status"></span>
+                            <i class="bi bi-lightning-charge-fill me-1" id="analyzeIcon"></i> Analyze Aspects
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-5 d-none">
+            <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+            <h5 class="fw-bold">Running Aspect-Based Sentiment Pipeline...</h5>
+            <p class="text-muted small">Extracting clauses & querying pretrained ABSA model</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="d-none">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold mb-0">Analysis Results</h4>
+                <span class="badge bg-primary px-3 py-2 rounded-pill fs-6" id="aspectCountBadge">0 Aspects Detected</span>
+            </div>
+
+            <!-- Aspect Sentiment Cards Grid -->
+            <div class="row g-3 mb-4" id="aspectCardsContainer">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Summary Table / Card -->
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-white py-3 fw-bold border-bottom">
+                    <i class="bi bi-pie-chart-fill text-primary me-2"></i> Aspect Breakdown Summary
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Aspect</th>
+                                    <th>Evidence Clause</th>
+                                    <th>Sentiment</th>
+                                    <th>Confidence</th>
+                                    <th>Engine</th>
+                                </tr>
+                            </thead>
+                            <tbody id="summaryTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Alert -->
+        <div id="errorAlert" class="alert alert-danger rounded-3 shadow-sm d-none mt-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <span id="errorMessage"></span>
+        </div>
+    </div>
+</div>
+{% endblock %}

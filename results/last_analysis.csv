@@ -1,0 +1,43 @@
+review_id,aspect,evidence,sentiment,confidence,model
+1,room,The bed was exceptionally comfortable,positive,0.794,deberta_v3
+1,room,the room was spotless,positive,0.997,deberta_v3
+1,cleanliness,the room was spotless,positive,0.999,deberta_v3
+1,food,the breakfast buffet was cold and disappointing.,neutral,0.563,deberta_v3
+2,staff,"Front desk staff were warm, welcoming, and assisted with luggage immediately.",positive,0.997,deberta_v3
+2,amenities,"However, the air conditioning made loud rattling noises all night.",neutral,0.854,deberta_v3
+2,noise,"However, the air conditioning made loud rattling noises all night.",negative,0.996,deberta_v3
+3,location,Outstanding location right next to the metro station and within walking distance of all major monuments.,positive,0.996,deberta_v3
+4,price,Extremely overpriced for the quality provided.,negative,0.992,deberta_v3
+4,room,"The bathroom was cramped, water pressure was weak, and Wi-Fi kept dropping every ten minutes.",negative,0.613,deberta_v3
+4,amenities,"The bathroom was cramped, water pressure was weak, and Wi-Fi kept dropping every ten minutes.",negative,0.699,deberta_v3
+5,noise,We had a peaceful and quiet stay with soundproof windows overlooking the courtyard.,positive,0.606,deberta_v3
+5,staff,The concierge recommended wonderful local restaurants.,neutral,0.974,deberta_v3
+6,staff,"The housekeeping team was friendly and attentive, replenishing towels every morning.",positive,0.962,deberta_v3
+6,amenities,"Unfortunately, the pool was closed for maintenance during our entire weekend.",negative,0.491,deberta_v3
+7,food,The dinner at the rooftop restaurant was fantastic with delicious pasta and great wine,positive,0.986,deberta_v3
+8,room,Dirty carpets in the hallway and a strange musty smell in the bathroom.,neutral,0.95,deberta_v3
+8,cleanliness,Dirty carpets in the hallway and a strange musty smell in the bathroom.,negative,0.973,deberta_v3
+8,price,Definitely not worth the high rate.,negative,0.995,deberta_v3
+9,room,Spacious modern suite with a panoramic skyline view.,positive,0.993,deberta_v3
+9,cleanliness,The gym was well-equipped with clean machines and free bottled water.,positive,0.946,deberta_v3
+9,amenities,The gym was well-equipped with clean machines and free bottled water.,neutral,0.805,deberta_v3
+10,price,Great value for money!,positive,0.996,deberta_v3
+10,room,"Affordable rates, spotless rooms, and super polite receptionists made our family trip memorable.",positive,0.997,deberta_v3
+10,cleanliness,"Affordable rates, spotless rooms, and super polite receptionists made our family trip memorable.",positive,0.995,deberta_v3
+10,staff,"Affordable rates, spotless rooms, and super polite receptionists made our family trip memorable.",positive,0.992,deberta_v3
+10,price,"Affordable rates, spotless rooms, and super polite receptionists made our family trip memorable.",positive,0.808,deberta_v3
+11,room,The street noise was unbearable until 2 AM despite having the balcony doors shut.,neutral,0.573,deberta_v3
+11,noise,The street noise was unbearable until 2 AM despite having the balcony doors shut.,negative,0.992,deberta_v3
+11,staff,The reception offered earplugs,neutral,0.768,deberta_v3
+11,room,could not change our room.,negative,0.954,deberta_v3
+12,food,"Breakfast was average, with basic toast, eggs, and coffee.",neutral,0.895,deberta_v3
+13,staff,Valet parking was smooth and quick.,positive,0.944,deberta_v3
+13,amenities,Valet parking was smooth and quick.,neutral,0.854,deberta_v3
+13,amenities,The elevator was fast,positive,0.943,deberta_v3
+14,room,"The bed sheets were stained, the shower had no hot water",negative,0.638,deberta_v3
+14,cleanliness,"The bed sheets were stained, the shower had no hot water",negative,0.917,deberta_v3
+14,amenities,"The bed sheets were stained, the shower had no hot water",negative,0.854,deberta_v3
+14,staff,the manager was rude when we complained.,negative,0.996,deberta_v3
+15,location,Centrally located hotel in a vibrant neighborhood with plenty of cafes and shops nearby.,positive,0.931,deberta_v3
+15,room,Room was compact,negative,0.956,deberta_v3
+15,cleanliness,cozy and clean.,positive,0.997,deberta_v3

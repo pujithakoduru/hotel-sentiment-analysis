@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Batch CSV Analysis - Hotel ABSA{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-11">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Batch CSV Processing</h2>
+            <p class="text-muted">Upload a CSV dataset of hotel reviews to execute high-throughput aspect-based sentiment scoring.</p>
+        </div>
+
+        <!-- Upload Card -->
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <form id="batchUploadForm" enctype="multipart/form-data">
+                    <div class="drop-zone border border-2 border-dashed rounded-4 p-5 text-center mb-3" id="dropZone">
+                        <i class="bi bi-cloud-arrow-up text-primary display-4 mb-2 d-block"></i>
+                        <h5 class="fw-bold mb-1">Drag and drop your CSV file here</h5>
+                        <p class="text-muted small mb-3">Supports .csv files up to 10 MB (First 1,000 reviews analyzed)</p>
+                        <input type="file" id="fileInput" name="file" accept=".csv" class="d-none">
+                        <button type="button" class="btn btn-outline-primary px-4 rounded-pill" onclick="document.getElementById('fileInput').click()">
+                            <i class="bi bi-folder2-open me-1"></i> Browse Files
+                        </button>
+                        <div id="selectedFileName" class="mt-3 fw-semibold text-primary d-none"></div>
+                    </div>
+
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="small text-muted">
+                                <i class="bi bi-info-circle me-1"></i> Recognized columns: <code>review</code>, <code>reviews</code>, <code>text</code>, <code>content</code>, <code>comment</code>
+                            </span>
+                            <a href="{{ url_for('download_sample') }}" class="btn btn-sm btn-light border rounded-pill">
+                                <i class="bi bi-file-earmark-arrow-down me-1"></i> Try Sample CSV
+                            </a>
+                        </div>
+                        <button type="submit" id="startBatchBtn" class="btn btn-primary px-4 py-2 rounded-3 fw-semibold shadow-sm" disabled>
+                            <i class="bi bi-play-fill me-1"></i> Start Batch Analysis
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Progress Container (Async Polling) -->
+        <div id="progressContainer" class="card shadow-sm border-0 rounded-4 p-4 mb-4 d-none">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                    <span class="fw-bold" id="progressStatusText">Processing Reviews in Background...</span>
+                </div>
+                <span class="fw-bold text-primary" id="progressPercent">0%</span>
+            </div>
+            <div class="progress rounded-pill mb-2" style="height: 12px;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" id="progressBar" role="progressbar" style="width: 0%"></div>
+            </div>
+            <div class="d-flex justify-content-between text-muted small">
+                <span id="progressCounts">0 / 0 reviews completed</span>
+                <span>Job ID: <code id="activeJobId">-</code></span>
+            </div>
+        </div>
+
+        <!-- Batch Results Section -->
+        <div id="batchResultsSection" class="d-none">
+            <div class="card shadow-sm border-0 rounded-4 mb-4">
+                <div class="card-header bg-white py-3 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <h5 class="fw-bold mb-0">
+                        <i class="bi bi-table text-primary me-2"></i> Analyzed Mentions (<span id="totalMentionsCount">0</span>)
+                    </h5>
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="{{ url_for('download') }}" id="downloadResultsBtn" class="btn btn-sm btn-success rounded-pill px-3 shadow-sm">
+                            <i class="bi bi-download me-1"></i> Download Results CSV
+                        </a>
+                        <a href="{{ url_for('dashboard_page') }}" class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm">
+                            <i class="bi bi-speedometer2 me-1"></i> View in Dashboard
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Filters Toolbar -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-search"></i></span>
+                                <input type="text" id="tableSearch" class="form-control border-start-0" placeholder="Search evidence text...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="aspectFilter" class="form-select">
+                                <option value="all">All Aspects</option>
+                                <option value="room">Room</option>
+                                <option value="cleanliness">Cleanliness</option>
+                                <option value="staff">Staff</option>
+                                <option value="food">Food</option>
+                                <option value="location">Location</option>
+                                <option value="price">Price</option>
+                                <option value="amenities">Amenities</option>
+                                <option value="noise">Noise</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="sentimentFilter" class="form-select">
+                                <option value="all">All Sentiments</option>
+                                <option value="positive">Positive</option>
+                                <option value="neutral">Neutral</option>
+                                <option value="negative">Negative</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 text-end">
+                            <span class="small text-muted d-block mt-2" id="filteredCountText">Showing all rows</span>
+                        </div>
+                    </div>
+
+                    <!-- Results Table -->
+                    <div class="table-responsive" style="max-height: 550px; overflow-y: auto;">
+                        <table class="table table-hover align-middle" id="batchDataTable">
+                            <thead class="table-light sticky-top">
+                                <tr>
+                                    <th style="width: 70px;">Review #</th>
+                                    <th style="width: 130px;">Aspect</th>
+                                    <th>Evidence Clause</th>
+                                    <th style="width: 120px;">Sentiment</th>
+                                    <th style="width: 100px;">Confidence</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batchTableBody">
+                                <!-- Dynamically filled -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Notification -->
+        <div id="batchErrorAlert" class="alert alert-danger rounded-3 shadow-sm d-none mt-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <span id="batchErrorMessage"></span>
+        </div>
+    </div>
+</div>
+{% endblock %}

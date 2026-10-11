@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Executive Analytics Dashboard - Hotel ABSA{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Header -->
+    <div class="col-12 d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h2 class="fw-bold mb-1">Executive Sentiment Dashboard</h2>
+            <p class="text-muted mb-0">High-level aspect metrics, guest satisfaction indexes, and polarity distributions.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <a href="{{ url_for('download') }}" class="btn btn-outline-dark rounded-pill px-3 shadow-sm">
+                <i class="bi bi-file-earmark-arrow-down me-1"></i> Export Data CSV
+            </a>
+            <a href="{{ url_for('batch_page') }}" class="btn btn-primary rounded-pill px-3 shadow-sm">
+                <i class="bi bi-cloud-arrow-up me-1"></i> Upload New Batch
+            </a>
+        </div>
+    </div>
+
+    <!-- Empty State Warning if no analysis yet -->
+    <div id="noDataAlert" class="col-12 d-none">
+        <div class="card border-0 shadow-sm rounded-4 p-5 text-center bg-white">
+            <i class="bi bi-inbox text-muted display-3 mb-3"></i>
+            <h4 class="fw-bold">No Analysis Data Available</h4>
+            <p class="text-muted col-md-6 mx-auto mb-4">
+                You haven't run any batch analyses yet. Upload a CSV of hotel reviews or test the sample dataset on the Batch page to populate this dashboard.
+            </p>
+            <div>
+                <a href="{{ url_for('batch_page') }}" class="btn btn-primary px-4 py-2 rounded-pill">
+                    <i class="bi bi-arrow-right-circle me-1"></i> Go to Batch Upload
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Content Container -->
+    <div id="dashboardContent" class="col-12">
+        <!-- KPI Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="text-muted small fw-semibold">TOTAL MENTIONS</span>
+                        <span class="badge bg-primary-subtle text-primary p-2 rounded-3"><i class="bi bi-chat-quote-fill"></i></span>
+                    </div>
+                    <div class="fs-2 fw-bold text-dark" id="kpiTotalMentions">0</div>
+                    <div class="text-muted extra-small">Extracted aspect clauses</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="text-muted small fw-semibold">POSITIVE RATIO</span>
+                        <span class="badge bg-success-subtle text-success p-2 rounded-3"><i class="bi bi-emoji-smile-fill"></i></span>
+                    </div>
+                    <div class="fs-2 fw-bold text-success" id="kpiPositiveRate">0%</div>
+                    <div class="text-muted extra-small">Proportion of positive feedback</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="text-muted small fw-semibold">TOP RATED ASPECT</span>
+                        <span class="badge bg-info-subtle text-info p-2 rounded-3"><i class="bi bi-trophy-fill"></i></span>
+                    </div>
+                    <div class="fs-2 fw-bold text-capitalize text-info" id="kpiBestAspect">-</div>
+                    <div class="text-muted extra-small">Highest Net Sentiment Score</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="text-muted small fw-semibold">CRITICAL ATTENTION</span>
+                        <span class="badge bg-danger-subtle text-danger p-2 rounded-3"><i class="bi bi-exclamation-octagon-fill"></i></span>
+                    </div>
+                    <div class="fs-2 fw-bold text-capitalize text-danger" id="kpiWorstAspect">-</div>
+                    <div class="text-muted extra-small">Lowest Net Sentiment Score</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-4 mb-4">
+            <!-- Aspect Polarity Breakdown Chart -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0">Aspect Sentiment Breakdown</h5>
+                        <span class="badge bg-light text-muted border">Positive vs Neutral vs Negative</span>
+                    </div>
+                    <div style="height: 320px; position: relative;">
+                        <canvas id="aspectBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Overall Sentiment Doughnut Chart -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
+                    <h5 class="fw-bold mb-3">Overall Sentiment Share</h5>
+                    <div style="height: 250px; position: relative;">
+                        <canvas id="sentimentDonutChart"></canvas>
+                    </div>
+                    <div class="d-flex justify-content-around mt-3 text-center small">
+                        <div>
+                            <span class="d-block fw-bold text-success" id="donutPosCount">0</span>
+                            <span class="text-muted extra-small">Positive</span>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-secondary" id="donutNeuCount">0</span>
+                            <span class="text-muted extra-small">Neutral</span>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-danger" id="donutNegCount">0</span>
+                            <span class="text-muted extra-small">Negative</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Aspect Summary Table -->
+        <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden mb-4">
+            <div class="card-header bg-white py-3 fw-bold border-bottom">
+                <i class="bi bi-table text-primary me-2"></i> Comprehensive Aspect Sentiment Index
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Total Mentions</th>
+                                <th>Positive</th>
+                                <th>Neutral</th>
+                                <th>Negative</th>
+                                <th>Positive %</th>
+                                <th>Net Sentiment Score (NSS)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardTableBody">
+                            <!-- Dynamically populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
